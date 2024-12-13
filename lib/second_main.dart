@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_praxtice/4.dart';
-import 'package:flutter_praxtice/body.dart';
-import 'package:flutter_praxtice/thired_body.dart';
+import 'package:iconic_momentum/4.dart';
+import 'package:iconic_momentum/body.dart';
+import 'package:iconic_momentum/thired_body.dart';
 
 typedef TodoItem = ({String title, bool done});
 

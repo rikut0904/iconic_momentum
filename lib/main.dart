@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter_praxtice/4.dart';
-import 'package:flutter_praxtice/body.dart';
-import 'package:flutter_praxtice/second_main.dart';
-import 'package:flutter_praxtice/thired_body.dart';
+import 'package:iconic_momentum/4.dart';
+import 'package:iconic_momentum/body.dart';
+import 'package:iconic_momentum/second_main.dart';
+import 'package:iconic_momentum/thired_body.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_praxtice/main.dart';
-import 'package:flutter_praxtice/second_main.dart';
+import 'package:iconic_momentum/main.dart';
+import 'package:iconic_momentum/second_main.dart';
 
 class TodoItemCard extends StatelessWidget {
   final TodoItem item;
