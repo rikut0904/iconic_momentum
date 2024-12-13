@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_praxtice/main.dart';
-
+import 'package:iconic_momentum/main.dart';
 
 class DropdownMenuExample extends StatefulWidget {
   const DropdownMenuExample({super.key});

@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_praxtice/main.dart';
-import 'package:flutter_praxtice/second_main.dart';
+import 'package:iconic_momentum/main.dart';
+import 'package:iconic_momentum/second_main.dart';
+
 class DetailPage extends StatelessWidget {
   const DetailPage({super.key, required this.item});
   final TodoItem item;
