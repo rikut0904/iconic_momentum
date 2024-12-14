@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconic_momentum/main.dart';
-import 'package:iconic_momentum/second_main.dart';
+import 'package:iconic_momentum/Other.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({super.key, required this.item});
