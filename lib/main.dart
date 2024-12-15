@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
-import 'package:iconic_momentum/GroupButton.dart';
-import 'package:iconic_momentum/CheckBox.dart';
-import 'package:iconic_momentum/Other.dart';
-import 'package:iconic_momentum/ListAddButton.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
-  runApp(const MyApp());
+final indexProvider = StateProvider<int>((ref) => 0);
+
+//アプリ全体のエントリーポイント
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('ja_JP', null);
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,22 +23,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color.fromARGB(255, 110, 58, 120),
         scaffoldBackgroundColor: Colors.grey[100],
       ),
-      home: const TodoPage(),
+      home: const BottonRoot(),
     );
   }
 }
-
-
-
-
-
-// class _TodoListPageState extends State<TodoListPage> {
-//   // Todoリストのデータ
-//   List<String> todoList = [];
-//   //削除する作業
-//   void _deleteTodoItem(int index) {
-//     setState(() {
-//       todoList.removeAt(index);
-//     });
-//   }
-// }
