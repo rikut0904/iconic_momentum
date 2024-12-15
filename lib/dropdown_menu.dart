@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:iconic_momentum/main.dart';
-
 class DropdownMenuExample extends StatefulWidget {
   const DropdownMenuExample({super.key});
-
   @override
   State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
 }
@@ -13,10 +10,11 @@ typedef MenuEntry = DropdownMenuEntry<String>;
 
 class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   static final List<String> list = [
-    "選択肢 1",
-    "選択肢 2",
-    "選択肢 3",
-    "選択肢 4",
+    "選択する",
+    "個人",
+    "金沢工業大学",
+    "その他",
+    "追加",
   ];
 
   static final List<MenuEntry> menuEntries = list
