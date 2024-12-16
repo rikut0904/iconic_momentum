@@ -5,7 +5,6 @@ import 'package:intl/date_symbol_data_local.dart';
 
 final indexProvider = StateProvider<int>((ref) => 0);
 
-//アプリ全体のエントリーポイント
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('ja_JP', null);
