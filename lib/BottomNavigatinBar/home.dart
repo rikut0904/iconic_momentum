@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class TodoItem {
   final String title;
@@ -103,17 +104,31 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
               final taskContent = todoContent.text.trim();
               final taskSchedule = todoSchedule.text.trim();
 
-              if (taskName.isNotEmpty) {
-                setState(() {
-                  todoItems.add(
-                    TodoItem(
-                      title: taskName,
-                      content: taskContent,
-                      schedule: taskSchedule,
-                    ),
-                  );
-                });
+              if (taskName.isEmpty || taskContent.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('エラー'),
+                    content: const Text('ToDo名又は内容が不明です'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+                return;
               }
+              setState(() {
+                todoItems.add(
+                  TodoItem(
+                    title: taskName,
+                    content: taskContent,
+                    schedule: taskSchedule,
+                  ),
+                );
+              });
               Navigator.of(context).pop();
             },
             child: const Text(
@@ -129,8 +144,9 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
     );
   }
 
-  ///タスクを削除する処理
-  void _removeTask(int index) {
+  ///タスクをやったことリストへ移動する処理
+  ///issue#7で変更
+  void _moveTask(int index) {
     setState(() {
       todoItems.removeAt(index);
     });
@@ -151,7 +167,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text(
             'ToDoリスト',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -169,13 +185,16 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
-                          title: Text(item.title),
-                          subtitle: Text('${item.content} - ${item.schedule}'),
+                          leading: Icon(Icons.circle_rounded,
+                              color: Colors.grey, size: 30),
+                          title: Text(
+                              '${item.schedule.isNotEmpty ? item.schedule + " | " : ""}${item.title}'),
+                          subtitle: Text(item.content),
                           trailing: Checkbox(
                             value: item.done,
                             onChanged: (value) {
                               if (value == true) {
-                                _removeTask(index);
+                                _moveTask(index);
                               }
                             },
                           ),
