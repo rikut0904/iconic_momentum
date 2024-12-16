@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class TodoItem {
   final String title;
@@ -103,17 +104,31 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
               final taskContent = todoContent.text.trim();
               final taskSchedule = todoSchedule.text.trim();
 
-              if (taskName.isNotEmpty) {
-                setState(() {
-                  todoItems.add(
-                    TodoItem(
-                      title: taskName,
-                      content: taskContent,
-                      schedule: taskSchedule,
-                    ),
-                  );
-                });
+              if (taskName.isEmpty || taskContent.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('エラー'),
+                    content: const Text('ToDo名又は内容が不明です'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+                return;
               }
+              setState(() {
+                todoItems.add(
+                  TodoItem(
+                    title: taskName,
+                    content: taskContent,
+                    schedule: taskSchedule,
+                  ),
+                );
+              });
               Navigator.of(context).pop();
             },
             child: const Text(
@@ -170,6 +185,8 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
+                          leading: Icon(Icons.circle_rounded,
+                              color: Colors.grey, size: 30),
                           title: Text(
                               '${item.schedule.isNotEmpty ? item.schedule + " | " : ""}${item.title}'),
                           subtitle: Text(item.content),
