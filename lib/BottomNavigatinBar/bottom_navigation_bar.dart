@@ -15,7 +15,9 @@ class BottonRoot extends ConsumerWidget {
 
     // 各タブのページリスト
     final pages = [
-      const Homeroute(),
+      const CompletedToDoPage(
+        completeToDo: [],
+      ),
       const CompletedTasksPage(
         completedTasks: [],
       ),
