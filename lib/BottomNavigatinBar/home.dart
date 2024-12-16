@@ -129,8 +129,9 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
     );
   }
 
-  ///タスクを削除する処理
-  void _removeTask(int index) {
+  ///タスクをやったことリストへ移動する処理
+  ///issue#7で変更
+  void _moveTask(int index) {
     setState(() {
       todoItems.removeAt(index);
     });
@@ -151,7 +152,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text(
             'ToDoリスト',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -169,13 +170,14 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
-                          title: Text(item.title),
-                          subtitle: Text('${item.content} - ${item.schedule}'),
+                          title: Text(
+                              '${item.schedule.isNotEmpty ? item.schedule + " | " : ""}${item.title}'),
+                          subtitle: Text(item.content),
                           trailing: Checkbox(
                             value: item.done,
                             onChanged: (value) {
                               if (value == true) {
-                                _removeTask(index);
+                                _moveTask(index);
                               }
                             },
                           ),
