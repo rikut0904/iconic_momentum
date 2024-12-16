@@ -75,7 +75,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
             ),
             const SizedBox(height: 30),
             const Text(
-              '日程(任意):',
+              '期限(任意):',
               style: TextStyle(
                 fontSize: 15,
               ),
