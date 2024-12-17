@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TodoItem {
   final String title;
@@ -20,6 +21,7 @@ class CompletedToDoPage extends StatefulWidget {
   final List<TodoItem> completeToDo;
 
   @override
+  // ignore: library_private_types_in_public_api
   _CompletedToDoState createState() => _CompletedToDoState();
 }
 
@@ -35,7 +37,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text(
-          'ToDoリスト',
+          'ToDoリスト追加',
           style: TextStyle(
             fontSize: 28,
           ),
@@ -45,14 +47,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'ToDo追加',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              'ToDo名:',
+              'ToDo名(必須):',
               style: TextStyle(
                 fontSize: 15,
               ),
@@ -63,7 +58,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
             ),
             const SizedBox(height: 30),
             const Text(
-              '内容:',
+              '内容(必須):',
               style: TextStyle(
                 fontSize: 15,
               ),
@@ -74,15 +69,35 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
             ),
             const SizedBox(height: 30),
             const Text(
-              '日程(任意):',
+              '期限(任意):',
               style: TextStyle(
                 fontSize: 15,
               ),
             ),
-            TextField(
-              controller: todoSchedule,
-              decoration: const InputDecoration(hintText: '日時を入力'),
-            ),
+            Row(children: [
+              Expanded(
+                child: TextField(
+                  controller: todoSchedule,
+                  decoration: const InputDecoration(hintText: '日付を選択'),
+                  readOnly: true,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.date_range),
+                onPressed: () async {
+                  final DateTime? selected = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2024),
+                    lastDate: DateTime(2034),
+                  );
+                  if (selected != null) {
+                    todoSchedule.text =
+                        "'${(DateFormat('yy/MM/dd')).format(selected)}";
+                  }
+                },
+              )
+            ])
           ],
         ),
         actions: [
@@ -103,17 +118,31 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
               final taskContent = todoContent.text.trim();
               final taskSchedule = todoSchedule.text.trim();
 
-              if (taskName.isNotEmpty) {
-                setState(() {
-                  todoItems.add(
-                    TodoItem(
-                      title: taskName,
-                      content: taskContent,
-                      schedule: taskSchedule,
-                    ),
-                  );
-                });
+              if (taskName.isEmpty || taskContent.isEmpty) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('エラー'),
+                    content: const Text('ToDo名又は内容が不明です'),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                );
+                return;
               }
+              setState(() {
+                todoItems.add(
+                  TodoItem(
+                    title: taskName,
+                    content: taskContent,
+                    schedule: taskSchedule,
+                  ),
+                );
+              });
               Navigator.of(context).pop();
             },
             child: const Text(
@@ -129,8 +158,9 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
     );
   }
 
-  ///タスクを削除する処理
-  void _removeTask(int index) {
+  ///タスクをやったことリストへ移動する処理
+  ///issue#7で変更
+  void _moveTask(int index) {
     setState(() {
       todoItems.removeAt(index);
     });
@@ -151,7 +181,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Text(
             'ToDoリスト',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -169,13 +199,16 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
-                          title: Text(item.title),
-                          subtitle: Text('${item.content} - ${item.schedule}'),
+                          leading: const Icon(Icons.circle_rounded,
+                              color: Colors.grey, size: 30),
+                          title: Text(
+                              '${item.title}${item.schedule.isNotEmpty ? " | ${item.schedule}" : ""}'),
+                          subtitle: Text(item.content),
                           trailing: Checkbox(
                             value: item.done,
                             onChanged: (value) {
                               if (value == true) {
-                                _removeTask(index);
+                                _moveTask(index);
                               }
                             },
                           ),
