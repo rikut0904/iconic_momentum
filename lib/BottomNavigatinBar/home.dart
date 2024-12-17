@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class TodoItem {
@@ -22,6 +21,7 @@ class CompletedToDoPage extends StatefulWidget {
   final List<TodoItem> completeToDo;
 
   @override
+  // ignore: library_private_types_in_public_api
   _CompletedToDoState createState() => _CompletedToDoState();
 }
 
@@ -83,7 +83,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.date_range),
+                icon: const Icon(Icons.date_range),
                 onPressed: () async {
                   final DateTime? selected = await showDatePicker(
                     context: context,
@@ -93,7 +93,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                   );
                   if (selected != null) {
                     todoSchedule.text =
-                        "\'" + (DateFormat('yy/MM/dd')).format(selected);
+                        "'${(DateFormat('yy/MM/dd')).format(selected)}";
                   }
                 },
               )
@@ -199,10 +199,10 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
-                          leading: Icon(Icons.circle_rounded,
+                          leading: const Icon(Icons.circle_rounded,
                               color: Colors.grey, size: 30),
                           title: Text(
-                              '${item.title}${item.schedule.isNotEmpty ? " | " + item.schedule : ""}'),
+                              '${item.title}${item.schedule.isNotEmpty ? " | ${item.schedule}" : ""}'),
                           subtitle: Text(item.content),
                           trailing: Checkbox(
                             value: item.done,
