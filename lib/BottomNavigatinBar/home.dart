@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class TodoItem {
   final String title;
@@ -36,7 +37,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text(
-          'ToDoリスト',
+          'ToDoリスト追加',
           style: TextStyle(
             fontSize: 28,
           ),
@@ -46,14 +47,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'ToDo追加',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              'ToDo名:',
+              'ToDo名(必須):',
               style: TextStyle(
                 fontSize: 15,
               ),
@@ -64,7 +58,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
             ),
             const SizedBox(height: 30),
             const Text(
-              '内容:',
+              '内容(必須):',
               style: TextStyle(
                 fontSize: 15,
               ),
@@ -80,10 +74,30 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                 fontSize: 15,
               ),
             ),
-            TextField(
-              controller: todoSchedule,
-              decoration: const InputDecoration(hintText: '日時を入力'),
-            ),
+            Row(children: [
+              Expanded(
+                child: TextField(
+                  controller: todoSchedule,
+                  decoration: const InputDecoration(hintText: '日付を選択'),
+                  readOnly: true,
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.date_range),
+                onPressed: () async {
+                  final DateTime? selected = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2024),
+                    lastDate: DateTime(2034),
+                  );
+                  if (selected != null) {
+                    todoSchedule.text =
+                        "\'" + (DateFormat('yy/MM/dd')).format(selected);
+                  }
+                },
+              )
+            ])
           ],
         ),
         actions: [
@@ -188,7 +202,7 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
                           leading: Icon(Icons.circle_rounded,
                               color: Colors.grey, size: 30),
                           title: Text(
-                              '${item.schedule.isNotEmpty ? item.schedule + " | " : ""}${item.title}'),
+                              '${item.title}${item.schedule.isNotEmpty ? " | " + item.schedule : ""}'),
                           subtitle: Text(item.content),
                           trailing: Checkbox(
                             value: item.done,
