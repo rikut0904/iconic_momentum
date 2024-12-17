@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:iconic_momentum/dropdown_menu.dart';
+import 'package:iconic_momentum/dropdown_provider/dropdown_menu.dart';
 
-typedef TodoItem = ({String title, bool done});
+typedef TodoItem = ({String title, String content, String schedule, bool done});
 
 class CompletedTasksPage extends StatefulWidget {
   const CompletedTasksPage({super.key, required List completedTasks});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CompletedTasksPageState createState() => _CompletedTasksPageState();
+  State<CompletedTasksPage> createState() => _CompletedTasksPageState();
 }
 
 class _CompletedTasksPageState extends State<CompletedTasksPage> {
-  final List<({String title, String content, String schedule, bool done})>
-      todoItems = [];
+  final List<TodoItem> todidItems = [];
 
   /// 新しいタスクを追加する処理
   void _addNewTask(BuildContext context) {
@@ -26,65 +24,42 @@ class _CompletedTasksPageState extends State<CompletedTasksPage> {
       builder: (context) => AlertDialog(
         title: const Text(
           'やったことリスト',
-          style: TextStyle(
-            fontSize: 28,
-          ),
+          style: TextStyle(fontSize: 24),
         ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start, // 左揃え
-          children: [
-            const Text(
-              'やったこと追加',
-              style: TextStyle(
-                fontSize: 15,
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('やったこと追加', style: TextStyle(fontSize: 13)),
+              const SizedBox(height: 10),
+              const Text('やったこと名：', style: TextStyle(fontSize: 13)),
+              TextField(
+                controller: todoName,
+                decoration: const InputDecoration(hintText: 'タスク名を入力'),
               ),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              'やったこと名：',
-              style: TextStyle(
-                fontSize: 15,
+              const SizedBox(height: 10),
+              const Text('内容：', style: TextStyle(fontSize: 13)),
+              TextField(
+                controller: todoContent,
+                decoration: const InputDecoration(hintText: '内容を入力'),
               ),
-            ),
-            TextField(
-              controller: todoName,
-              decoration: const InputDecoration(hintText: 'タスク名を入力'),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              '内容：',
-              style: TextStyle(
-                fontSize: 15,
+              const SizedBox(height: 10),
+              const Text('日程(任意)：', style: TextStyle(fontSize: 13)),
+              TextField(
+                controller: todoSchedule,
+                decoration: const InputDecoration(hintText: '日時を入力'),
               ),
-            ),
-            TextField(
-              controller: todoContent,
-              decoration: const InputDecoration(hintText: '内容を入力'),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              '日程(任意)：',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            TextField(
-              controller: todoSchedule,
-              decoration: const InputDecoration(hintText: '日時を入力'),
-            ),
-          ],
+              const SizedBox(height: 10),
+              const Text('グループ選択：', style: TextStyle(fontSize: 13)),
+              const DropdownMenuExample(),
+            ],
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              'キャンセル',
-              style: TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: const Text('キャンセル', style: TextStyle(color: Colors.red)),
           ),
           TextButton(
             onPressed: () {
@@ -94,7 +69,7 @@ class _CompletedTasksPageState extends State<CompletedTasksPage> {
 
               if (taskName.isNotEmpty) {
                 setState(() {
-                  todoItems.add((
+                  todidItems.add((
                     title: taskName,
                     content: taskContent,
                     schedule: taskSchedule,
@@ -104,13 +79,7 @@ class _CompletedTasksPageState extends State<CompletedTasksPage> {
               }
               Navigator.of(context).pop();
             },
-            child: const Text(
-              '追加',
-              style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: const Text('追加', style: TextStyle(color: Colors.blue)),
           ),
         ],
       ),
@@ -120,7 +89,7 @@ class _CompletedTasksPageState extends State<CompletedTasksPage> {
   /// タスクを削除する処理
   void _removeTask(int index) {
     setState(() {
-      todoItems.removeAt(index);
+      todidItems.removeAt(index);
     });
   }
 
@@ -145,8 +114,9 @@ class _CompletedTasksPageState extends State<CompletedTasksPage> {
             ),
             const SizedBox(height: 16),
             const DropdownMenuExample(),
+            const SizedBox(height: 16),
             Expanded(
-              child: todoItems.isEmpty
+              child: todidItems.isEmpty
                   ? const Center(
                       child: Text(
                         'タスクはまだありません',
@@ -154,9 +124,9 @@ class _CompletedTasksPageState extends State<CompletedTasksPage> {
                       ),
                     )
                   : ListView.builder(
-                      itemCount: todoItems.length,
+                      itemCount: todidItems.length,
                       itemBuilder: (context, index) {
-                        final item = todoItems[index];
+                        final item = todidItems[index];
                         return Card(
                           margin: const EdgeInsets.symmetric(vertical: 8.0),
                           child: ListTile(
