@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 class CompletedTasksPage extends StatelessWidget {
   final List<String> deletedTasks;
 
-  CompletedTasksPage({required this.deletedTasks}); // コンストラクタでデータを受け取る
+  const CompletedTasksPage({super.key, required this.deletedTasks}); // コンストラクタでデータを受け取る
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("削除済みタスク")),
+      appBar: AppBar(title: const Text("削除済みタスク")),
       body: ListView.builder(
         itemCount: deletedTasks.length,
         itemBuilder: (context, index) {
