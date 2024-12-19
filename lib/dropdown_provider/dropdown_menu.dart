@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:iconic_momentum/dropdown_provider/doropdown_riverpod.dart';
+import 'package:iconic_momentum/dropdown_provider/dropdown_riverpod.dart';
 
 class DropdownMenuExample extends ConsumerWidget {
   const DropdownMenuExample({super.key});
@@ -56,12 +56,12 @@ class DropdownMenuExample extends ConsumerWidget {
             showAddItemDialog(); // 「追加」選択時にダイアログ表示
           } else {
             ref.read(dropdownValueProvider.notifier).state = value; // 選択値を更新
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailPage(title: value), // 遷移先ページ
-              ),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => DetailPage(title: value), // 遷移先ページ
+            //   ),
+            // );
           }
         }
       },
