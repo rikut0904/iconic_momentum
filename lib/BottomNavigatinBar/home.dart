@@ -27,6 +27,8 @@ class CompletedToDoPage extends StatefulWidget {
 
 class _CompletedToDoState extends State<CompletedToDoPage> {
   final List<TodoItem> todoItems = [];
+  List<String> todoList = [];
+  List<String> deletedTasks = []; // 削除済みのタスクを保存
 
   void _addNewTask(BuildContext context) {
     final TextEditingController todoName = TextEditingController();
@@ -158,7 +160,6 @@ class _CompletedToDoState extends State<CompletedToDoPage> {
     );
   }
 
-  ///タスクをやったことリストへ移動する処理
   ///issue#7で変更
   void _moveTask(int index) {
     setState(() {
