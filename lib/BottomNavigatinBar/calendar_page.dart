@@ -32,9 +32,9 @@ Widget build(BuildContext context) {
 
 	return Scaffold(
 		appBar: AppBar(
-		title: const Text(
+		title: Text(
 			'Iconic Momentum',
-			style: TextStyle(fontWeight: FontWeight.bold),
+			style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
 		),
 		backgroundColor: Colors.purple[300], // AppBarの色
 		),
