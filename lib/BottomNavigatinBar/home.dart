@@ -16,7 +16,7 @@ class TodoItem {
 }
 
 class CompletedToDoPage extends StatefulWidget {
-  const CompletedToDoPage({super.key});
+  const CompletedToDoPage({super.key, required List completeToDo});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
