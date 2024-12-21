@@ -7,7 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 final indexProvider = StateProvider<int>((ref) => 0);
-final loginProvider = StateProvider<bool>((ref) => false);
+final loginProvider = StateProvider<bool>((ref) => true);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

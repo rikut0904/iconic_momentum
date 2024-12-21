@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'Iconic Momentum',
-            style: GoogleFonts.notoSerif(fontWeight: FontWeight.bold),
+            style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.purple[300], // AppBarの色
         ),

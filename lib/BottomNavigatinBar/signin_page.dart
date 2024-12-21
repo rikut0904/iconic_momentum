@@ -1,19 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/signin_page.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
+class SigninPage extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  const LoginPage({super.key});
+  const SigninPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPage();
+  State<SigninPage> createState() => _SigninPage();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _SigninPage extends State<SigninPage> {
   String infoText = "";
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -37,10 +37,21 @@ class _LoginPage extends State<LoginPage> {
           children: <Widget>[
             const SizedBox(height: 40),
             const Text(
-              'ログイン',
+              'ユーザー登録',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 70),
+            const Text(
+              'メールアドレス',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            TextField(
+              controller: email,
+              decoration: const InputDecoration(hintText: 'メールアドレスを入力してください'),
+            ),
+            const SizedBox(height: 30),
             const Text(
               'ユーザー名',
               style: TextStyle(
@@ -79,7 +90,7 @@ class _LoginPage extends State<LoginPage> {
               width: double.infinity,
               child: ElevatedButton(
                 child: const Text(
-                  'ログイン',
+                  '登録',
                   style: TextStyle(
                       color: Color.fromARGB(255, 156, 39, 176), fontSize: 15),
                 ),
@@ -100,31 +111,13 @@ class _LoginPage extends State<LoginPage> {
                   } catch (e) {
                     setState(() {
                       (() {
-                        infoText = "ログインに失敗しました。:${e.toString()}";
+                        infoText = "ユーザー登録に失敗しました。:${e.toString()}";
                       });
                     });
                   }
                 },
               ),
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                child: const Text(
-                  'ユーザー登録がまだの方はこちら',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 156, 39, 176), fontSize: 15),
-                ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return const SigninPage();
-                    }),
-                  );
-                },
-              ),
-            )
           ],
         ),
       ),
