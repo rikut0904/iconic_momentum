@@ -48,9 +48,7 @@ class BottonRoot extends ConsumerWidget {
               }));
     } else {
       return const Scaffold(
-        body: LoginPage(
-        LoginList: [],
-      )
+        body: LoginPage()
       );
     }
   }

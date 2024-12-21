@@ -1,28 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
-class LoginItem {
-  final String name;
-  final String mail;
-
-  LoginItem({
-    required this.name,
-    required this.mail,
-  });
-}
 
 class LoginPage extends StatefulWidget {
   // ignore: non_constant_identifier_names
-  const LoginPage({super.key, required this.LoginList});
-  // ignore: non_constant_identifier_names
-  final List<LoginItem> LoginList;
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPage();
 }
 
 class _LoginPage extends State<LoginPage> {
-  // ignore: unused_element, non_constant_identifier_names
-  void _Login(BuildContext context) {}
+  String infoText = "";
+  final TextEditingController name = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +27,42 @@ class _LoginPage extends State<LoginPage> {
         ),
         backgroundColor: Colors.purple[300],
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
+          children: <Widget>[
+            const Text(
               'ログイン',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
+            const Text(
+              'メールアドレス:',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            TextField(
+              controller: email,
+              decoration: const InputDecoration(hintText: 'メールアドレスを入力'),
+            ),
+            const SizedBox(height: 30),
+            const Text(
+              'パスワード:',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            TextField(
+                controller: password,
+                decoration: const InputDecoration(
+                  hintText: 'パスワードを入力',
+                  
+                ),
+                obscureText: true
+                ),
+            const SizedBox(height: 30),
           ],
         ),
       ),
