@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 typedef TodoItem = ({String title, bool done});
 
@@ -10,9 +9,9 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Iconic Momentum',
-            style: GoogleFonts.notoSerif(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.purple[300], // AppBarの色
         ),
