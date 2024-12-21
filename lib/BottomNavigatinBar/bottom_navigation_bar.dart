@@ -4,6 +4,7 @@ import 'package:iconic_momentum/BottomNavigatinBar/calendar_page.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/settings_page.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/tasks_page.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
 import 'package:iconic_momentum/main.dart';
 
 class BottonRoot extends ConsumerWidget {
@@ -12,6 +13,7 @@ class BottonRoot extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final index = ref.watch(indexProvider);
+    final loginUI = ref.watch(loginProvider);
 
     // 各タブのページリスト
     final pages = [
@@ -33,17 +35,23 @@ class BottonRoot extends ConsumerWidget {
       BottomNavigationBarItem(icon: Icon(Icons.settings), label: '設定'),
     ];
 
-    return Scaffold(
-      body: pages[index], // 現在のインデックスに応じたページを表示
-      bottomNavigationBar: BottomNavigationBar(
-        items: items,
-        currentIndex: index,
-        selectedItemColor: Colors.purple[300],
-        unselectedItemColor: Colors.black,
-        onTap: (newIndex) {
-          ref.read(indexProvider.notifier).state = newIndex; // インデックスを更新
-        },
-      ),
-    );
+    if (loginUI) {
+      return Scaffold(
+          body: pages[index], // 現在のインデックスに応じたページを表示
+          bottomNavigationBar: BottomNavigationBar(
+              items: items,
+              currentIndex: index,
+              selectedItemColor: Colors.purple[300],
+              unselectedItemColor: Colors.black,
+              onTap: (newIndex) {
+                ref.read(indexProvider.notifier).state = newIndex; // インデックスを更新
+              }));
+    } else {
+      return const Scaffold(
+        body: LoginPage(
+        LoginList: [],
+      )
+      );
+    }
   }
 }
