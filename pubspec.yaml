@@ -44,6 +44,9 @@ dependencies:
   firebase_auth: ^5.3.4
   firebase_core: ^3.9.0
   google_fonts: ^6.2.1
+  cloud_firestore: ^5.6.0
+  masamune_model_firebase_data_connect: ^2.2.7
+  firebase_data_connect: ^0.1.2+5
 
 dev_dependencies:
   flutter_test:
