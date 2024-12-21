@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconic_momentum/dropdown_provider/dropdown_riverpod.dart';
 
-
 class DropdownMenuExample extends ConsumerWidget {
   const DropdownMenuExample({super.key});
 
