@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/calendar_page.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/settings_page.dart';
-
 import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
 import 'package:iconic_momentum/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BottonRoot extends ConsumerWidget {
   const BottonRoot({super.key});
