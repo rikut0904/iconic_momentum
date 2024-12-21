@@ -4,6 +4,8 @@ import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class SigninPage extends StatefulWidget {
   // ignore: non_constant_identifier_names
@@ -98,16 +100,31 @@ class _SigninPage extends State<SigninPage> {
                   final loginName = name.text.trim();
                   final loginEmail = email.text.trim();
                   final loginPassword = password.text.trim();
+                  if (loginName.isEmpty || loginEmail.isEmpty || loginPassword.isEmpty) {
+                    setState(() {
+                    infoText = "すべてのフィールドを入力してください。";
+                    });
+                    return;
+                  }
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
-                    await auth.createUserWithEmailAndPassword(
-                        email: loginEmail, password: loginPassword);
-                    // ignore: use_build_context_synchronously
-                    await Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) {
-                        return const CompletedToDoPage(completeToDo: []);
-                      }),
-                    );
+                    final UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+                    email: loginEmail,
+                    password: loginPassword,
+                  );
+                    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+                    await firestore.collection('users').doc(userCredential.user!.uid).set({
+                    'username': loginName,
+                    'email': loginEmail,
+                    'createdAt': FieldValue.serverTimestamp(),
+                  });
+                
+                  // 登録成功後の画面遷移
+                  await Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) {
+                    return const CompletedToDoPage(completeToDo: []);
+                  }),
+                  );
                   } catch (e) {
                     setState(() {
                       (() {
