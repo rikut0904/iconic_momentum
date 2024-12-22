@@ -48,6 +48,9 @@ dependencies:
   masamune_model_firebase_data_connect: ^2.2.7
   firebase_data_connect: ^0.1.2+5
   google_sign_in: ^6.2.2
+  webview_flutter: ^4.2.0
+  webview_flutter_android: ^3.7.0
+  webview_flutter_wkwebview: ^3.4.0
 
 dev_dependencies:
   flutter_test:

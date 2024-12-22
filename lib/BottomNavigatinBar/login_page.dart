@@ -84,7 +84,6 @@ class _LoginPage extends ConsumerState<LoginPage> {
                       color: Color.fromARGB(255, 156, 39, 176), fontSize: 15),
                 ),
                 onPressed: () async {
-                  final loginName = name.text.trim();
                   final loginEmail = email.text.trim();
                   final loginPassword = password.text.trim();
                   try {
