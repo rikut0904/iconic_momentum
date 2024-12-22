@@ -90,8 +90,7 @@ class _LoginPage extends ConsumerState<LoginPage> {
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signInWithEmailAndPassword(
-                        email: loginEmail,
-                        password: loginPassword);
+                        email: loginEmail, password: loginPassword);
                     ref.read(loginProvider.notifier).state = true;
                     Navigator.pushReplacement(
                       // ignore: use_build_context_synchronously
