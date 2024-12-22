@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconic_momentum/dropdown_provider/dropdown_menu.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -120,14 +121,11 @@ class _HomeScreenState extends State<CompletedToDoPage> {
     _loadTasks(); // ローカルデータを再読み込み
   }
 
+  
   // チェックボックスを押した際の処理
   void _onCheckboxChanged(TodoItem item, bool? value) async {
-    if (value == true) {
-      // タスクを「完了済み」にする
-      await _updateTaskDone(item.title, true);
-      await _deleteTask(item.title); // Firestoreから削除
-    } else {
-      print('チェックが解除されました');
+    if (value != null) {
+      await _updateTaskDone(item.title, value); // Firestoreで状態を更新
     }
   }
 
@@ -255,6 +253,7 @@ class _HomeScreenState extends State<CompletedToDoPage> {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
+            const DropdownMenuExample(),
             Expanded(
               child: currentList.isEmpty
                   ? Center(
