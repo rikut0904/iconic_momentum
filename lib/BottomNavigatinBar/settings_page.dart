@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconic_momentum/main.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingPage();
+  ConsumerState<SettingsPage> createState() => _SettingPage();
 }
 
-class _SettingPage extends State<SettingsPage> {
+class _SettingPage extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +42,13 @@ class _SettingPage extends State<SettingsPage> {
                     onPressed: () async {
                       await FirebaseAuth.instance.signOut();
                       if (context.mounted) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) {
-                            return const LoginPage();
-                          }),
+                        ref.read(loginProvider.notifier).state = false;
+                        Navigator.pushReplacement(
+                          // ignore: use_build_context_synchronously
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BottonRoot(),
+                          ),
                         );
                       }
                     },
