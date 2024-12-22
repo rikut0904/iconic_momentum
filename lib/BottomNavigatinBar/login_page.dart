@@ -1,19 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconic_momentum/main.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/signin_page.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
-  // ignore: non_constant_identifier_names
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPage();
+  ConsumerState<LoginPage> createState() => _LoginPage();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _LoginPage extends ConsumerState<LoginPage> {
   String infoText = "";
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -89,13 +90,15 @@ class _LoginPage extends State<LoginPage> {
                   final loginPassword = password.text.trim();
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
-                    await auth.createUserWithEmailAndPassword(
+                    await auth.signInWithEmailAndPassword(
                         email: loginEmail, password: loginPassword);
-                    // ignore: use_build_context_synchronously
-                    await Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) {
-                        return const CompletedToDoPage(completeToDo: []);
-                      }),
+                    ref.read(loginProvider.notifier).state = true;
+                    Navigator.pushReplacement(
+                      // ignore: use_build_context_synchronously
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BottonRoot(),
+                      ),
                     );
                   } catch (e) {
                     setState(() {

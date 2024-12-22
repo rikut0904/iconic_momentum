@@ -1,19 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SigninPage extends StatefulWidget {
-  // ignore: non_constant_identifier_names
+class SigninPage extends ConsumerStatefulWidget {
   const SigninPage({super.key});
 
   @override
-  State<SigninPage> createState() => _SigninPage();
+  ConsumerState<SigninPage> createState() => _SigninPage();
 }
 
-class _SigninPage extends State<SigninPage> {
+class _SigninPage extends ConsumerState<SigninPage> {
   String infoText = "";
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -100,19 +101,32 @@ class _SigninPage extends State<SigninPage> {
                   final loginPassword = password.text.trim();
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
-                    await auth.createUserWithEmailAndPassword(
-                        email: loginEmail, password: loginPassword);
-                    // ignore: use_build_context_synchronously
-                    await Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) {
-                        return const CompletedToDoPage(completeToDo: []);
-                      }),
+                    UserCredential userCredential =
+                        await auth.createUserWithEmailAndPassword(
+                      email: loginEmail,
+                      password: loginPassword,
+                    );
+                    final FirebaseFirestore firestore =
+                        FirebaseFirestore.instance;
+                    await firestore
+                        .collection('users')
+                        .doc(userCredential.user!.uid)
+                        .set({
+                      'username': loginName,
+                      'email': loginEmail,
+                      'createdAt': FieldValue.serverTimestamp(),
+                    });
+                    ref.read(loginProvider.notifier).state = true;
+                    Navigator.pushReplacement(
+                      // ignore: use_build_context_synchronously
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BottonRoot(),
+                      ),
                     );
                   } catch (e) {
                     setState(() {
-                      (() {
-                        infoText = "ユーザー登録に失敗しました。:${e.toString()}";
-                      });
+                      infoText = "ユーザー登録に失敗しました。:${e.toString()}";
                     });
                   }
                 },
