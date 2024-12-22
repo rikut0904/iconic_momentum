@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconic_momentum/dropdown_provider/dropdown_menu.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -7,12 +9,14 @@ class TodoItem {
   final String title;
   final String content;
   final String schedule;
+  final String userId;
   bool done;
 
   TodoItem({
     required this.title,
     required this.content,
     required this.schedule,
+    required this.userId,
     this.done = false,
   });
 
@@ -23,6 +27,7 @@ class TodoItem {
       title: data['title'] ?? '',
       content: data['content'] ?? '',
       schedule: data['schedule'] ?? '',
+      userId: data['userId'] ?? '',
       done: data['done'] ?? false,
     );
   }
@@ -33,6 +38,7 @@ class TodoItem {
       'title': title,
       'content': content,
       'schedule': schedule,
+      'userId': userId,
       'done': done,
     };
   }
@@ -81,10 +87,15 @@ class _HomeScreenState extends State<CompletedToDoPage> {
   // Firestoreに新しいタスクを追加
   Future<void> _addTaskToFirestore(
       String title, String content, String schedule) async {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        throw Exception("ユーザーがログインしていません");
+      }
     await _todoCollection.add({
       'title': title,
       'content': content,
       'schedule': schedule,
+      'userId': user.uid, 
       'done': false,
     });
     _loadTasks();
@@ -110,14 +121,11 @@ class _HomeScreenState extends State<CompletedToDoPage> {
     _loadTasks(); // ローカルデータを再読み込み
   }
 
+  
   // チェックボックスを押した際の処理
   void _onCheckboxChanged(TodoItem item, bool? value) async {
-    if (value == true) {
-      // タスクを「完了済み」にする
-      await _updateTaskDone(item.title, true);
-      await _deleteTask(item.title); // Firestoreから削除
-    } else {
-      print('チェックが解除されました');
+    if (value != null) {
+      await _updateTaskDone(item.title, value); // Firestoreで状態を更新
     }
   }
 
@@ -245,6 +253,7 @@ class _HomeScreenState extends State<CompletedToDoPage> {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
+            const DropdownMenuExample(),
             Expanded(
               child: currentList.isEmpty
                   ? Center(
@@ -270,7 +279,6 @@ class _HomeScreenState extends State<CompletedToDoPage> {
                             title: Text(
                               '${item.title}${item.schedule.isNotEmpty ? " | ${item.schedule}" : ""}',
                             ),
-                            subtitle: Text(item.content),
                             trailing: _currentIndex == 0
                                 ? Checkbox(
                                     value: item.done,

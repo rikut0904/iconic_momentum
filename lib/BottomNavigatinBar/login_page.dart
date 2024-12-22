@@ -42,13 +42,13 @@ class _LoginPage extends ConsumerState<LoginPage> {
             ),
             const SizedBox(height: 70),
             const Text(
-              'ユーザー名',
+              'メールアドレス',
               style: TextStyle(
                 fontSize: 20,
               ),
             ),
             TextField(
-              controller: name,
+              controller: email,
               decoration: const InputDecoration(hintText: 'ユーザー名を入力してください'),
             ),
             const SizedBox(height: 30),
