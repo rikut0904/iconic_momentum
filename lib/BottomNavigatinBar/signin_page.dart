@@ -107,10 +107,12 @@ class _SigninPage extends ConsumerState<SigninPage> {
                     );
                     final FirebaseFirestore firestore =
                         FirebaseFirestore.instance;
+                    final userId = userCredential.user!.uid;
                     await firestore
                         .collection('users')
                         .doc(userCredential.user!.uid)
                         .set({
+                      'uid': userId, // FirestoreにUIDを保存
                       'username': loginName,
                       'email': loginEmail,
                       'createdAt': FieldValue.serverTimestamp(),
