@@ -24,7 +24,9 @@ class _BottonRootState extends ConsumerState<BottonRoot> {
       const CompletedToDoPage(
         completeToDo: [],
       ),
-      const CalendarPage(),
+      const CalendarPage(
+        todoItems: [],
+      ),
       const SettingsPage(),
     ];
 

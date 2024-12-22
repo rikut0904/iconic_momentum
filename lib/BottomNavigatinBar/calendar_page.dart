@@ -1,92 +1,72 @@
-import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
+import 'package:table_calendar/table_calendar.dart';
 
-typedef TodoItem = ({String title, bool done});
+class CalendarPage extends StatelessWidget {
+  final List<TodoItem> todoItems;
 
-class CalendarPage extends HookWidget {
-  const CalendarPage({super.key});
+  const CalendarPage({super.key, required this.todoItems});
 
   @override
   Widget build(BuildContext context) {
-    // 状態を管理する
-    final focusedDayState = useState(DateTime.now());
-    final selectedDayState = useState(DateTime.now());
+    DateTime selectedDate = DateTime.now();
 
-    // イベントリストのサンプルデータ
-    final events = {
-      DateTime.utc(2024, 2, 15): [
-        Event(title: 'イベント1'),
-        Event(title: 'イベント2', description: '詳細な説明'),
-      ],
-      DateTime.utc(2024, 2, 16): [
-        Event(title: 'イベント3'),
-      ],
-    };
-
-    // イベント取得メソッド
-    List<Event> getEventsForDay(DateTime day) {
-      return events[day] ?? [];
-    }
+    // 選択した日付に対応するタスクをフィルタリング
+    final List<TodoItem> filteredTasks = todoItems
+        .where((todo) =>
+            DateTime.parse(todo.schedule).year == selectedDate.year &&
+            DateTime.parse(todo.schedule).month == selectedDate.month &&
+            DateTime.parse(todo.schedule).day == selectedDate.day)
+        .toList();
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Iconic Momentum',
-            style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
+      appBar: AppBar(
+        title: const Text('カレンダー'),
+        backgroundColor: Colors.purple[300],
+      ),
+      body: Column(
+        children: [
+          TableCalendar(
+            firstDay: DateTime.utc(2000, 1, 1),
+            lastDay: DateTime.utc(2030, 12, 31),
+            focusedDay: DateTime.now(),
+            selectedDayPredicate: (day) => isSameDay(day, selectedDate),
+            onDaySelected: (selectedDay, focusedDay) {
+              selectedDate = selectedDay;
+            },
           ),
-          backgroundColor: Colors.purple[300], // AppBarの色
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'カレンダー',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TableCalendar<Event>(
-                firstDay: DateTime.utc(2020, 1, 1),
-                lastDay: DateTime.utc(2040, 1, 1),
-                focusedDay: focusedDayState.value,
-                locale: 'ja_JP',
-                selectedDayPredicate: (day) {
-                  return isSameDay(selectedDayState.value, day);
-                },
-                onDaySelected: (selectedDay, focusedDay) {
-                  selectedDayState.value = selectedDay;
-                  focusedDayState.value = focusedDay;
-                },
-                eventLoader: getEventsForDay, // イベントを表示
-              ),
-              // 選択した日のイベントを表示
-              const SizedBox(height: 8),
-              Expanded(
-                child: ListView(
-                  children: getEventsForDay(selectedDayState.value)
-                      .map((event) => ListTile(
-                            title: Text(event.title),
-                            subtitle: event.description != null
-                                ? Text(event.description!)
-                                : null,
-                          ))
-                      .toList(),
-                ),
-              ),
-            ],
+          const SizedBox(height: 16),
+          Expanded(
+            child: filteredTasks.isEmpty
+                ? const Center(
+                    child: Text(
+                      'この日にタスクはありません',
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: filteredTasks.length,
+                    itemBuilder: (context, index) {
+                      final task = filteredTasks[index];
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: ListTile(
+                          title: Text(task.title),
+                          subtitle: Text(task.content),
+                          trailing: Icon(
+                            task.done
+                                ? Icons.check_circle
+                                : Icons.circle_outlined,
+                            color: task.done ? Colors.green : Colors.grey,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
-        ));
+        ],
+      ),
+    );
   }
 }
 
-class Event {
-  final String title;
-  final String? description;
-
-  Event({required this.title, this.description});
-}
