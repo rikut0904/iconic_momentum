@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SigninPage extends ConsumerStatefulWidget {
@@ -116,7 +117,13 @@ class _SigninPage extends ConsumerState<SigninPage> {
                       'createdAt': FieldValue.serverTimestamp(),
                     });
                     ref.read(loginProvider.notifier).state = true;
-                    return const Scaffold(body: BottonRoot());
+                    Navigator.pushReplacement(
+                      // ignore: use_build_context_synchronously
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BottonRoot(),
+                      ),
+                    );
                   } catch (e) {
                     setState(() {
                       infoText = "ユーザー登録に失敗しました。:${e.toString()}";
