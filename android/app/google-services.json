@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:70689439748:android:d1913943effbfad525b551",
+        "android_client_info": {
+          "package_name": "com.andoroid.applic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHkDRj7JoW-20_Pda2WXTPZLc5mqVP_ZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:70689439748:android:1aa50178243f7b0825b551",
         "android_client_info": {
           "package_name": "com.iconic.momentum"

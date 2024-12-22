@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAHkDRj7JoW-20_Pda2WXTPZLc5mqVP_ZA',
-    appId: '1:70689439748:android:1aa50178243f7b0825b551',
+    appId: '1:70689439748:android:d1913943effbfad525b551',
     messagingSenderId: '70689439748',
     projectId: 'iconic-momentum',
     storageBucket: 'iconic-momentum.firebasestorage.app',
@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'iconic-momentum.firebasestorage.app',
     measurementId: 'G-F8T55V477T',
   );
+
 }

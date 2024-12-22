@@ -2,12 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/firebase_options.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 
 final indexProvider = StateProvider<int>((ref) => 0);
-final loginProvider = StateProvider<bool>((ref) => false);
+final loginProvider = StateProvider<bool>((ref) => true);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
