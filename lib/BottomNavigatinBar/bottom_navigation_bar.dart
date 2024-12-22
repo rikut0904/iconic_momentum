@@ -5,13 +5,17 @@ import 'package:iconic_momentum/BottomNavigatinBar/settings_page.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
 import 'package:iconic_momentum/main.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class BottonRoot extends ConsumerWidget {
+class BottonRoot extends ConsumerStatefulWidget {
   const BottonRoot({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BottonRoot> createState() => _BottonRootState();
+}
+
+class _BottonRootState extends ConsumerState<BottonRoot> {
+  @override
+  Widget build(BuildContext context) {
     final index = ref.watch(indexProvider);
     final loginUI = ref.watch(loginProvider);
 
@@ -43,9 +47,7 @@ class BottonRoot extends ConsumerWidget {
                 ref.read(indexProvider.notifier).state = newIndex; // インデックスを更新
               }));
     } else {
-      return const Scaffold(
-        body: LoginPage()
-      );
+      return const Scaffold(body: LoginPage());
     }
   }
 }
