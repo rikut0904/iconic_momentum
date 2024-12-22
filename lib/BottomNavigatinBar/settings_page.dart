@@ -31,33 +31,40 @@ class _SettingPage extends ConsumerState<SettingsPage> {
               const Text('設定画面-以下記述するもの-', style: TextStyle(fontSize: 24)),
               const Text('githubリンク公開', style: TextStyle(fontSize: 18)),
               const Text('プライバシーポリシー', style: TextStyle(fontSize: 18)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.logout),
-                    color: Colors.purple,
-                    iconSize: 30,
-                    tooltip: 'ログアウト',
-                    onPressed: () async {
-                      await FirebaseAuth.instance.signOut();
-                      if (context.mounted) {
-                        ref.read(loginProvider.notifier).state = false;
-                        Navigator.pushReplacement(
-                          // ignore: use_build_context_synchronously
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BottonRoot(),
-                          ),
-                        );
-                      }
-                    },
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
                   ),
-                  const Text(
-                    'ログアウト',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    if (context.mounted) {
+                      ref.read(loginProvider.notifier).state = false;
+                      Navigator.pushReplacement(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BottonRoot(),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.logout,size: 18),
+                      SizedBox(width: 10),
+                      Text(
+                        'ログアウト',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      )
+                    ],),
+                ),
               ),
             ],
           ),
