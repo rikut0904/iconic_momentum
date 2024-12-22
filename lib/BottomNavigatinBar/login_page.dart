@@ -42,13 +42,13 @@ class _LoginPage extends ConsumerState<LoginPage> {
             ),
             const SizedBox(height: 70),
             const Text(
-              'ユーザー名',
+              'メールアドレス',
               style: TextStyle(
                 fontSize: 20,
               ),
             ),
             TextField(
-              controller: name,
+              controller: email,
               decoration: const InputDecoration(hintText: 'ユーザー名を入力してください'),
             ),
             const SizedBox(height: 30),
@@ -90,7 +90,8 @@ class _LoginPage extends ConsumerState<LoginPage> {
                   try {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signInWithEmailAndPassword(
-                        email: loginEmail, password: loginPassword);
+                        email: loginEmail,
+                        password: loginPassword);
                     ref.read(loginProvider.notifier).state = true;
                     Navigator.pushReplacement(
                       // ignore: use_build_context_synchronously
