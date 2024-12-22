@@ -1,6 +1,6 @@
 import 'package:firebase_data_connect/firebase_data_connect.dart' as fdc;
-import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart'
-    as annotation;
+// ignore: unused_import, depend_on_referenced_packages
+import 'package:masamune_model_firebase_data_connect_annotation/masamune_model_firebase_data_connect_annotation.dart' as annotation;
 
 class DefaultConnector {
   static fdc.ConnectorConfig connectorConfig = fdc.ConnectorConfig(
