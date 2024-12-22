@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 
 final indexProvider = StateProvider<int>((ref) => 0);
-final loginProvider = StateProvider<bool>((ref) => true);
+final loginProvider = StateProvider<bool>((ref) => false);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
