@@ -6,11 +6,16 @@ import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
 import 'package:iconic_momentum/main.dart';
 
-class BottonRoot extends ConsumerWidget {
+class BottonRoot extends ConsumerStatefulWidget {
   const BottonRoot({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BottonRoot> createState() => _BottonRootState();
+}
+
+class _BottonRootState extends ConsumerState<BottonRoot> {
+  @override
+  Widget build(BuildContext context) {
     final index = ref.watch(indexProvider);
     final loginUI = ref.watch(loginProvider);
 
