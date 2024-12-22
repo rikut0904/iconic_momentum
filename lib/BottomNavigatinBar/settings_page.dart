@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:iconic_momentum/main.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingPage();
+  ConsumerState<SettingsPage> createState() => _SettingPage();
 }
 
-class _SettingPage extends State<SettingsPage> {
+class _SettingPage extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,30 +31,41 @@ class _SettingPage extends State<SettingsPage> {
               const Text('設定画面-以下記述するもの-', style: TextStyle(fontSize: 24)),
               const Text('githubリンク公開', style: TextStyle(fontSize: 18)),
               const Text('プライバシーポリシー', style: TextStyle(fontSize: 18)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.logout),
-                    color: Colors.purple,
-                    iconSize: 30,
-                    tooltip: 'ログアウト',
-                    onPressed: () async {
-                      await FirebaseAuth.instance.signOut();
-                      if (context.mounted) {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) {
-                            return const LoginPage();
-                          }),
-                        );
-                      }
-                    },
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
                   ),
-                  const Text(
-                    'ログアウト',
-                    style: TextStyle(fontSize: 18),
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    if (context.mounted) {
+                      ref.read(loginProvider.notifier).state = false;
+                      Navigator.pushReplacement(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const BottonRoot(),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.logout, size: 18),
+                      SizedBox(width: 10),
+                      Text(
+                        'ログアウト',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      )
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),

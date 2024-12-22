@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconic_momentum/main.dart';
+import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/calendar_page.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/settings_page.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/login_page.dart';
-import 'package:iconic_momentum/main.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BottonRoot extends ConsumerStatefulWidget {
   const BottonRoot({super.key});
