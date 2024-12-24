@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
 final indexProvider = StateProvider<int>((ref) => 0);
-final loginProvider = StateProvider<bool>((ref) => true);
+final loginProvider = StateProvider<bool>((ref) => false);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
