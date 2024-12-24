@@ -1,6 +1,11 @@
+import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:iconic_momentum/firebase_options.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:flutter/foundation.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +20,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  if (!kIsWeb) {
+    if (Platform.isAndroid) {
+      WebViewPlatform.instance = AndroidWebViewPlatform();
+    } else if (Platform.isIOS) {
+      WebViewPlatform.instance = WebKitWebViewPlatform();
+    }
+  }
   runApp(const ProviderScope(child: MyApp()));
 }
 
