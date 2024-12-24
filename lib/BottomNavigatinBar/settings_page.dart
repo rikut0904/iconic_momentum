@@ -73,6 +73,7 @@ class _SettingPage extends ConsumerState<SettingsPage> {
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
                   if (context.mounted) {
+                    ref.read(indexProvider.notifier).state = 0;
                     ref.read(loginProvider.notifier).state = false;
                     Navigator.pushReplacement(
                       context,
@@ -97,6 +98,8 @@ class _SettingPage extends ConsumerState<SettingsPage> {
                 ),
               ),
             ),
+            const SizedBox(height: 30),
+            const Text('made by 逃走中'),
           ],
         ),
       ),
