@@ -95,7 +95,7 @@ class _HomeScreenState extends State<CompletedToDoPage> {
       'title': title,
       'content': content,
       'schedule': schedule,
-      'userId': user.uid, 
+      'userId': user.uid,
       'done': false,
     });
     _loadTasks();
