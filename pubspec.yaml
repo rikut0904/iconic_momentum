@@ -49,8 +49,9 @@ dependencies:
   firebase_data_connect: ^0.1.2+5
   google_sign_in: ^6.2.2
   webview_flutter: ^4.2.0
-  webview_flutter_android: ^3.7.0
-  webview_flutter_wkwebview: ^3.4.0
+  webview_flutter_android: ^3.16.8
+  webview_flutter_wkwebview: ^3.14.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:

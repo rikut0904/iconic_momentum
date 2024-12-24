@@ -23,12 +23,11 @@ void main() async {
 
   if (!kIsWeb) {
     if (Platform.isAndroid) {
-      WebViewController();
+      WebViewPlatform.instance = AndroidWebViewPlatform();
     } else if (Platform.isIOS) {
       WebViewPlatform.instance = WebKitWebViewPlatform();
     }
   }
-
   runApp(const ProviderScope(child: MyApp()));
 }
 

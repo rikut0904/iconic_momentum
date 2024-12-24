@@ -3,6 +3,8 @@ import 'package:iconic_momentum/main.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:iconic_momentum/BottomNavigatinBar/webview.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,14 +38,19 @@ class _SettingPage extends ConsumerState<SettingsPage> {
                 const SizedBox(width: 10),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const WebViewPage(
-                          title: "GitHub",
-                          url: "https://github.com/rikut0904/iconic_momentum",
+                    if (!kIsWeb) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const WebViewPage(
+                            title: "GitHub",
+                            url: "https://github.com/rikut0904/iconic_momentum",
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      _launchURL(
+                          "https://github.com/rikut0904/iconic_momentum");
+                    }
                   },
                   child: const Text(
                     'https://github.com/rikut0904/iconic_momentum',
@@ -94,5 +101,14 @@ class _SettingPage extends ConsumerState<SettingsPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'このURLを開けません: $url';
+    }
   }
 }
