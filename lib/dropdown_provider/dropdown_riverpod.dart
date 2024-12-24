@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// ドロップダウンメニューのリストを管理する StateNotifier
 class DropdownListNotifier extends StateNotifier<List<String>> {
-  DropdownListNotifier() : super(["追加", "個人"]); // 初期値は「追加」のみ
+  DropdownListNotifier() : super(["個人", "追加"]); // 初期値は「個人」「追加」
 
   /// 新しい項目を追加するメソッド
   void addItem(String newItem) {
@@ -16,7 +16,7 @@ final dropdownListProvider =
         (ref) => DropdownListNotifier());
 
 /// 現在選択されている値を管理するプロバイダー
-final dropdownValueProvider = StateProvider<String>((ref) => "追加");
+final dropdownValueProvider = StateProvider<String>((ref) => "個人");
 
 /// カスタムドロップダウンのリストを管理する StateNotifier
 class CustomDropdownNotifier extends StateNotifier<List<String>> {
