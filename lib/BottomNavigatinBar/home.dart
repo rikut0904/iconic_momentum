@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconic_momentum/dropdown_provider/dropdown_menu.dart';
+import 'package:iconic_momentum/dropdown_provider/dropdown_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +12,7 @@ class TodoItem {
   final String content;
   final String schedule;
   final String userId;
+  final String place;
   bool done;
 
   TodoItem({
@@ -17,6 +20,7 @@ class TodoItem {
     required this.content,
     required this.schedule,
     required this.userId,
+    required this.place,
     this.done = false,
   });
 
@@ -28,6 +32,7 @@ class TodoItem {
       content: data['content'] ?? '',
       schedule: data['schedule'] ?? '',
       userId: data['userId'] ?? '',
+      place: data['place'] ?? '',
       done: data['done'] ?? false,
     );
   }
@@ -39,19 +44,20 @@ class TodoItem {
       'content': content,
       'schedule': schedule,
       'userId': userId,
+      'place': place,
       'done': done,
     };
   }
 }
 
-class CompletedToDoPage extends StatefulWidget {
+class CompletedToDoPage extends ConsumerStatefulWidget {
   const CompletedToDoPage({super.key, required List completeToDo});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<CompletedToDoPage> {
+class _HomeScreenState extends ConsumerState<CompletedToDoPage> {
   int _currentIndex = 0;
 
   // タスクリスト
@@ -86,16 +92,17 @@ class _HomeScreenState extends State<CompletedToDoPage> {
 
   // Firestoreに新しいタスクを追加
   Future<void> _addTaskToFirestore(
-      String title, String content, String schedule) async {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        throw Exception("ユーザーがログインしていません");
-      }
+      String title, String content, String schedule, String place) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      throw Exception("ユーザーがログインしていません");
+    }
     await _todoCollection.add({
       'title': title,
       'content': content,
       'schedule': schedule,
       'userId': user.uid,
+      'place': place,
       'done': false,
     });
     _loadTasks();
@@ -121,7 +128,6 @@ class _HomeScreenState extends State<CompletedToDoPage> {
     _loadTasks(); // ローカルデータを再読み込み
   }
 
-  
   // チェックボックスを押した際の処理
   void _onCheckboxChanged(TodoItem item, bool? value) async {
     if (value != null) {
@@ -130,7 +136,7 @@ class _HomeScreenState extends State<CompletedToDoPage> {
   }
 
   // 新しいタスクを追加する関数
-  void _addNewTask(BuildContext context) {
+  void _addNewTask(BuildContext context, WidgetRef ref) {
     final TextEditingController todoName = TextEditingController();
     final TextEditingController todoContent = TextEditingController();
     final TextEditingController todoSchedule = TextEditingController();
@@ -220,8 +226,8 @@ class _HomeScreenState extends State<CompletedToDoPage> {
                 );
                 return;
               }
-
-              await _addTaskToFirestore(taskName, taskContent, taskSchedule);
+              final place = ref.watch(dropdownValueProvider);
+              await _addTaskToFirestore(taskName, taskContent, taskSchedule, place);
               Navigator.of(context).pop();
             },
             child: const Text('追加'),
@@ -297,7 +303,7 @@ class _HomeScreenState extends State<CompletedToDoPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _addNewTask(context),
+        onPressed: () => _addNewTask(context, ref),
         backgroundColor: Colors.purple[300],
         child: const Icon(Icons.add, color: Colors.white),
       ),
