@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconic_momentum/main.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/signin_page.dart';
+import 'package:iconic_momentum/BottomNavigationBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/BottomNavigationBar/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -90,12 +91,21 @@ class _LoginPage extends ConsumerState<LoginPage> {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signInWithEmailAndPassword(
                         email: loginEmail, password: loginPassword);
+                    String? userId = auth.currentUser?.uid;
+                    final loginUserSnapshot = await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(userId)
+                        .get();
+                    final loginUser =
+                        loginUserSnapshot.data()?['username'] ?? 'ゲスト';
+                    ref.read(infoName.notifier).state = loginUser;
+                    ref.read(infoEmail.notifier).state = loginEmail;
                     ref.read(loginProvider.notifier).state = true;
                     Navigator.pushReplacement(
                       // ignore: use_build_context_synchronously
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const BottonRoot(),
+                        builder: (context) => const BottomRoot(),
                       ),
                     );
                   } catch (e) {
@@ -118,7 +128,7 @@ class _LoginPage extends ConsumerState<LoginPage> {
                       color: Color.fromARGB(255, 156, 39, 176), fontSize: 15),
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(
+                  Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) {
                       return const SigninPage();
                     }),

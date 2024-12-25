@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -14,6 +13,7 @@ class WebViewPage extends StatefulWidget {
   final String url;
 
   @override
+  // ignore: library_private_types_in_public_api
   _WebViewState createState() => _WebViewState();
 }
 
