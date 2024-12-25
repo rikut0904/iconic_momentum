@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'iconic-momentum.firebasestorage.app',
     measurementId: 'G-F8T55V477T',
   );
-
 }

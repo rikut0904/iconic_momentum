@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:iconic_momentum/main.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/webview.dart';
+import 'package:iconic_momentum/BottomNavigationBar/webview.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+// ignore: constant_identifier_names
+const GitURL = "https://github.com/rikut0904/iconic_momentum";
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -18,6 +22,8 @@ class SettingsPage extends ConsumerStatefulWidget {
 class _SettingPage extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final userName = ref.watch(infoName);
+    final userEmail = ref.watch(infoEmail);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,11 +37,12 @@ class _SettingPage extends ConsumerState<SettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Text('設定画面', style: TextStyle(fontSize: 24)),
+            const Text('設定', style: TextStyle(fontSize: 24)),
+            Text('ユーザー名 : $userName', style: const TextStyle(fontSize: 18)),
+            Text('メールアドレス : $userEmail', style: const TextStyle(fontSize: 18)),
             Row(
               children: [
-                const Text('github:', style: TextStyle(fontSize: 18)),
-                const SizedBox(width: 10),
+                const Text('github : ', style: TextStyle(fontSize: 18)),
                 TextButton(
                   onPressed: () {
                     if (!kIsWeb) {
@@ -43,24 +50,23 @@ class _SettingPage extends ConsumerState<SettingsPage> {
                         MaterialPageRoute(
                           builder: (BuildContext context) => const WebViewPage(
                             title: "GitHub",
-                            url: "https://github.com/rikut0904/iconic_momentum",
+                            url: GitURL,
                           ),
                         ),
                       );
                     } else {
-                      _launchURL(
-                          "https://github.com/rikut0904/iconic_momentum");
+                      _launchURL(GitURL);
                     }
                   },
                   child: const Text(
-                    'https://github.com/rikut0904/iconic_momentum',
+                    GitURL,
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
-            const Text('プライバシーポリシー', style: TextStyle(fontSize: 18)),
+            const Text('プライバシーポリシー : ', style: TextStyle(fontSize: 18)),
             const SizedBox(height: 40),
             Center(
               child: ElevatedButton(
@@ -75,10 +81,12 @@ class _SettingPage extends ConsumerState<SettingsPage> {
                   if (context.mounted) {
                     ref.read(indexProvider.notifier).state = 0;
                     ref.read(loginProvider.notifier).state = false;
+                    ref.read(infoName.notifier).state = "ゲスト";
+                    ref.read(infoEmail.notifier).state = "Null";
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const BottonRoot(), // スペル修正
+                        builder: (context) => const BottomRoot(),
                       ),
                     );
                   }

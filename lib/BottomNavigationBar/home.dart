@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconic_momentum/dropdown_provider/dropdown_menu.dart';
 import 'package:iconic_momentum/dropdown_provider/dropdown_riverpod.dart';
+import 'package:iconic_momentum/main.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,7 +12,7 @@ class TodoItem {
   final String title;
   final String content;
   final String schedule;
-  final String userId;
+  final String userName;
   final String place;
   bool done;
 
@@ -19,7 +20,7 @@ class TodoItem {
     required this.title,
     required this.content,
     required this.schedule,
-    required this.userId,
+    required this.userName,
     required this.place,
     this.done = false,
   });
@@ -31,7 +32,7 @@ class TodoItem {
       title: data['title'] ?? '',
       content: data['content'] ?? '',
       schedule: data['schedule'] ?? '',
-      userId: data['userId'] ?? '',
+      userName: data['userName'] ?? '',
       place: data['place'] ?? '',
       done: data['done'] ?? false,
     );
@@ -43,7 +44,7 @@ class TodoItem {
       'title': title,
       'content': content,
       'schedule': schedule,
-      'userId': userId,
+      'userName': userName,
       'place': place,
       'done': done,
     };
@@ -54,6 +55,7 @@ class CompletedToDoPage extends ConsumerStatefulWidget {
   const CompletedToDoPage({super.key, required List completeToDo});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -91,8 +93,8 @@ class _HomeScreenState extends ConsumerState<CompletedToDoPage> {
   }
 
   // Firestoreに新しいタスクを追加
-  Future<void> _addTaskToFirestore(
-      String title, String content, String schedule, String place) async {
+  Future<void> _addTaskToFirestore(String title, String content,
+      String schedule, String userName, String place) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       throw Exception("ユーザーがログインしていません");
@@ -101,7 +103,7 @@ class _HomeScreenState extends ConsumerState<CompletedToDoPage> {
       'title': title,
       'content': content,
       'schedule': schedule,
-      'userId': user.uid,
+      'userName': userName,
       'place': place,
       'done': false,
     });
@@ -227,7 +229,10 @@ class _HomeScreenState extends ConsumerState<CompletedToDoPage> {
                 return;
               }
               final place = ref.watch(dropdownValueProvider);
-              await _addTaskToFirestore(taskName, taskContent, taskSchedule, place);
+              final userName = ref.watch(infoName);
+              await _addTaskToFirestore(
+                  taskName, taskContent, taskSchedule, userName, place);
+              // ignore: use_build_context_synchronously
               Navigator.of(context).pop();
             },
             child: const Text('追加'),

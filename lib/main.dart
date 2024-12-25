@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:iconic_momentum/firebase_options.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -11,8 +12,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
+final infoName = StateProvider<String>((ref) => "ゲスト");
 final indexProvider = StateProvider<int>((ref) => 0);
 final loginProvider = StateProvider<bool>((ref) => false);
+final infoEmail = StateProvider<String>((ref) => "Null");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +45,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color.fromARGB(255, 110, 58, 120),
         scaffoldBackgroundColor: Colors.grey[100],
       ),
-      home: const BottonRoot(),
+      home: const BottomRoot(),
       supportedLocales: const [
         Locale('en'),
         Locale('ja'),

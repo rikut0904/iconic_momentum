@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/home.dart';
+import 'package:iconic_momentum/BottomNavigationBar/home.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -69,4 +69,3 @@ class CalendarPage extends StatelessWidget {
     );
   }
 }
-

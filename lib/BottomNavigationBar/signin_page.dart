@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:iconic_momentum/BottomNavigationBar/login_page.dart';
 import 'package:iconic_momentum/main.dart';
-import 'package:iconic_momentum/BottomNavigatinBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/BottomNavigationBar/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +25,18 @@ class _SigninPage extends ConsumerState<SigninPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacement(
+              // ignore: use_build_context_synchronously
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginPage(),
+              ),
+            );
+          },
+        ),
         title: Text(
           'Iconic Momentum',
           style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
@@ -117,12 +130,14 @@ class _SigninPage extends ConsumerState<SigninPage> {
                       'email': loginEmail,
                       'createdAt': FieldValue.serverTimestamp(),
                     });
+                    ref.read(infoName.notifier).state = loginName;
+                    ref.read(infoEmail.notifier).state = loginEmail;
                     ref.read(loginProvider.notifier).state = true;
                     Navigator.pushReplacement(
                       // ignore: use_build_context_synchronously
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const BottonRoot(),
+                        builder: (context) => const BottomRoot(),
                       ),
                     );
                   } catch (e) {
