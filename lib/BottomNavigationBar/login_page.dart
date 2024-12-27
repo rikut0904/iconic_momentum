@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -98,8 +100,11 @@ class _LoginPage extends ConsumerState<LoginPage> {
                         .get();
                     final loginUser =
                         loginUserSnapshot.data()?['username'] ?? 'ゲスト';
+                    final loginGroupList =
+                        (loginUserSnapshot.data()?['group'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
                     ref.read(infoName.notifier).state = loginUser;
                     ref.read(infoEmail.notifier).state = loginEmail;
+                    ref.read(groupListProvider.notifier).state = loginGroupList;
                     ref.read(loginProvider.notifier).state = true;
                     Navigator.pushReplacement(
                       // ignore: use_build_context_synchronously

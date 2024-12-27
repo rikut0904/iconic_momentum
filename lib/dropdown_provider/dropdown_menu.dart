@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:iconic_momentum/main.dart';
 import 'package:iconic_momentum/dropdown_provider/dropdown_riverpod.dart';
 
 class DropdownMenuExample extends ConsumerWidget {
@@ -35,6 +36,10 @@ class DropdownMenuExample extends ConsumerWidget {
                   ref
                       .read(dropdownListProvider.notifier)
                       .addItem(newItem); // リストを更新
+                  ref.read(groupTagProvider.notifier).state =
+                      newItem; // 新しいタグをセット
+                  ref.read(dropdownValueProvider.notifier).state =
+                      newItem; // ドロップダウンの選択状態を更新
                   Navigator.of(context).pop();
                 }
               },
@@ -45,26 +50,30 @@ class DropdownMenuExample extends ConsumerWidget {
       );
     }
 
-    return DropdownMenu<String>(
-      initialSelection: dropdownValue,
-      dropdownMenuEntries: dropdownList
-          .map((String value) => DropdownMenuEntry(value: value, label: value))
-          .toList(),
-      onSelected: (String? value) {
-        if (value != null) {
-          if (value == "追加") {
-            showAddItemDialog(); // 「追加」選択時にダイアログ表示
-          } else {
-            ref.read(dropdownValueProvider.notifier).state = value; // 選択値を更新
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => DetailPage(title: value), // 遷移先ページ
-            //   ),
-            // );
+    return SizedBox(
+      width: 200,
+      child: DropdownButton<String>(
+        value: dropdownValue.isNotEmpty ? dropdownValue : dropdownList.first ,
+        onChanged: (String? value) {
+          if (value != null) {
+            if (value == "追加") {
+              showAddItemDialog();
+              final groupTag = ref.watch(groupTagProvider);
+              ref.read(dropdownValueProvider.notifier).state = groupTag;
+            } else {
+              ref.read(dropdownValueProvider.notifier).state = value; // 選択値を更新
+            }
           }
-        }
-      },
+        },
+        items: dropdownList.map<DropdownMenuItem<String>>((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList(),
+    isExpanded: true,
+    underline: Container(height: 2, color: Colors.purple[300]),
+    ),
     );
   }
 }

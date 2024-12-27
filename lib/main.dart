@@ -12,10 +12,63 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
-final infoName = StateProvider<String>((ref) => "ゲスト");
+//画面遷移情報
 final indexProvider = StateProvider<int>((ref) => 0);
 final loginProvider = StateProvider<bool>((ref) => false);
+//ログイン情報
+final infoID = StateProvider<String>((ref) => "Null");
+final infoName = StateProvider<String>((ref) => "ゲスト");
 final infoEmail = StateProvider<String>((ref) => "Null");
+//グループ機能
+final groupTagProvider = StateProvider<String>((ref) => "個人");
+final groupListProvider = StateProvider<List<String>>((ref) => ["追加", "全て", "個人"]);
+// タスクリスト
+final infoTodoItems = StateProvider<List<TodoItem>>((ref) => []);
+final infoCompletedItems = StateProvider<List<TodoItem>>((ref) => []);
+
+//ToDoリストの初期化
+class TodoItem {
+  final String title;
+  final String content;
+  final String schedule;
+  final String username;
+  final String place;
+  bool done;
+
+  TodoItem({
+    required this.title,
+    required this.content,
+    required this.schedule,
+    required this.username,
+    required this.place,
+    this.done = false,
+  });
+
+  // Firestoreからデータを読み込む
+  factory TodoItem.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return TodoItem(
+      title: data['title'] ?? '',
+      content: data['content'] ?? '',
+      schedule: data['schedule'] ?? '',
+      username: data['username'] ?? '',
+      place: data['place'] ?? '',
+      done: data['done'] ?? false,
+    );
+  }
+
+  // Firestoreにデータを保存する形式に変換
+  Map<String, dynamic> toFirestore() {
+    return {
+      'title': title,
+      'content': content,
+      'schedule': schedule,
+      'username': username,
+      'place': place,
+      'done': done,
+    };
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

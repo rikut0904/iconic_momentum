@@ -125,12 +125,14 @@ class _SigninPage extends ConsumerState<SigninPage> {
                         .collection('users')
                         .doc(userCredential.user!.uid)
                         .set({
-                      'uid': userId, // FirestoreにUIDを保存
-                      'username': loginName,
-                      'email': loginEmail,
+                      'uid': userId.toString(), // FirestoreにUIDを保存
+                      'username': loginName.toString(),
+                      'email': loginEmail.toString(),
+                      'group': ["追加", "全て", "個人"],
                       'createdAt': FieldValue.serverTimestamp(),
                     });
                     ref.read(infoName.notifier).state = loginName;
+                    ref.read(infoID.notifier).state = userId;
                     ref.read(infoEmail.notifier).state = loginEmail;
                     ref.read(loginProvider.notifier).state = true;
                     Navigator.pushReplacement(

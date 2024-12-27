@@ -1,23 +1,39 @@
-import 'package:flutter/material.dart';
+import 'package:iconic_momentum/main.dart';
 import 'package:iconic_momentum/BottomNavigationBar/home.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarPage extends StatelessWidget {
-  final List<TodoItem> todoItems;
+class CalendarPage extends ConsumerStatefulWidget {
+  const CalendarPage({super.key, required todoItems});
 
-  const CalendarPage({super.key, required this.todoItems});
+  @override
+  _CalendarPage createState() => _CalendarPage();
+}
 
+class _CalendarPage extends ConsumerState<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     DateTime selectedDate = DateTime.now();
-
-    // 選択した日付に対応するタスクをフィルタリング
-    final List<TodoItem> filteredTasks = todoItems
-        .where((todo) =>
-            DateTime.parse(todo.schedule).year == selectedDate.year &&
-            DateTime.parse(todo.schedule).month == selectedDate.month &&
-            DateTime.parse(todo.schedule).day == selectedDate.day)
-        .toList();
+    final todoItems = ref.watch(infoTodoItems);
+    List<TodoItem> filteredTasks = [];
+    String infoText = "";
+    try {
+      filteredTasks = todoItems.where((todo) {
+        try {
+          // 選択した日付に対応するタスクをフィルタリング
+          return DateTime.parse(todo.schedule).year == selectedDate.year &&
+              DateTime.parse(todo.schedule).month == selectedDate.month &&
+              DateTime.parse(todo.schedule).day == selectedDate.day;
+        } catch (e) {
+          return false;
+        }
+      }).toList();
+    } catch (e) {
+      infoText = 'Invalid date format: $e';
+      filteredTasks = [];
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -26,13 +42,18 @@ class CalendarPage extends StatelessWidget {
       ),
       body: Column(
         children: [
+          const SizedBox(height: 5),
+          Text(infoText),
+          const SizedBox(height: 5),
           TableCalendar(
             firstDay: DateTime.utc(2000, 1, 1),
-            lastDay: DateTime.utc(2030, 12, 31),
+            lastDay: DateTime.utc(2040, 12, 31),
             focusedDay: DateTime.now(),
             selectedDayPredicate: (day) => isSameDay(day, selectedDate),
             onDaySelected: (selectedDay, focusedDay) {
-              selectedDate = selectedDay;
+              setState(() {
+                selectedDate = selectedDay;
+              });
             },
           ),
           const SizedBox(height: 16),

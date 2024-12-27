@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:iconic_momentum/main.dart';
 import 'package:iconic_momentum/BottomNavigationBar/bottom_navigation_bar.dart';
+import 'package:iconic_momentum/dropdown_provider/dropdown_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart';
@@ -79,10 +80,24 @@ class _SettingPage extends ConsumerState<SettingsPage> {
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
                   if (context.mounted) {
+                    //画面遷移情報
                     ref.read(indexProvider.notifier).state = 0;
                     ref.read(loginProvider.notifier).state = false;
+                    //ログイン情報
+                    ref.read(infoID.notifier).state = "Null";
                     ref.read(infoName.notifier).state = "ゲスト";
                     ref.read(infoEmail.notifier).state = "Null";
+                    //グループ機能
+                    ref.read(groupTagProvider.notifier).state = "個人";
+                    ref.read(dropdownValueProvider.notifier).state = "個人";
+                    ref.read(groupListProvider.notifier).state = [
+                      "追加",
+                      "全て",
+                      "個人"
+                    ];
+                    // タスクリスト
+                    ref.read(infoTodoItems.notifier).state = [];
+                    ref.read(infoCompletedItems.notifier).state = [];
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

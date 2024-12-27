@@ -10,10 +10,10 @@ class BottomRoot extends ConsumerStatefulWidget {
   const BottomRoot({super.key});
 
   @override
-  ConsumerState<BottomRoot> createState() => _BottonRootState();
+  ConsumerState<BottomRoot> createState() => _BottomRootState();
 }
 
-class _BottonRootState extends ConsumerState<BottomRoot> {
+class _BottomRootState extends ConsumerState<BottomRoot> {
   @override
   Widget build(BuildContext context) {
     final index = ref.watch(indexProvider);
