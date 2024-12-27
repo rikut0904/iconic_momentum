@@ -17,14 +17,12 @@ class _CalendarPage extends ConsumerState<CalendarPage> {
   Widget build(BuildContext context) {
     DateTime selectedDate = DateTime.now();
     final todoItems = ref.watch(infoTodoItems);
-    final completedItems = ref.watch(infoCompletedItems);
     List<TodoItem> filteredTasks = [];
     String infoText = "";
     try {
       filteredTasks = todoItems.where((todo) {
         try {
           // 選択した日付に対応するタスクをフィルタリング
-          final DateTime scheduleDate = DateFormat('yyyy-MM-dd').parseStrict(todo.schedule);
           return DateTime.parse(todo.schedule).year == selectedDate.year &&
               DateTime.parse(todo.schedule).month == selectedDate.month &&
               DateTime.parse(todo.schedule).day == selectedDate.day;
