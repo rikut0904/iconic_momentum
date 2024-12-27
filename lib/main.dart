@@ -19,6 +19,7 @@ final loginProvider = StateProvider<bool>((ref) => false);
 final infoID = StateProvider<String>((ref) => "Null");
 final infoName = StateProvider<String>((ref) => "ゲスト");
 final infoEmail = StateProvider<String>((ref) => "Null");
+final groupTagProvider = StateProvider<String>((ref) =>  "個人");
 // タスクリスト
 final infoTodoItems = StateProvider<List<TodoItem>>((ref) => []);
 final infoCompletedItems = StateProvider<List<TodoItem>>((ref) => []);
