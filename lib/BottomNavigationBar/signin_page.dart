@@ -128,6 +128,7 @@ class _SigninPage extends ConsumerState<SigninPage> {
                       'uid': userId.toString(), // FirestoreにUIDを保存
                       'username': loginName.toString(),
                       'email': loginEmail.toString(),
+                      'group': ["追加", "全て", "個人"],
                       'createdAt': FieldValue.serverTimestamp(),
                     });
                     ref.read(infoName.notifier).state = loginName;
