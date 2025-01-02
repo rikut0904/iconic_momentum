@@ -41,30 +41,26 @@ class _SettingPage extends ConsumerState<SettingsPage> {
             const Text('設定', style: TextStyle(fontSize: 24)),
             Text('ユーザー名 : $userName', style: const TextStyle(fontSize: 18)),
             Text('メールアドレス : $userEmail', style: const TextStyle(fontSize: 18)),
-            Row(
-              children: [
-                const Text('github : ', style: TextStyle(fontSize: 18)),
-                TextButton(
-                  onPressed: () {
-                    if (!kIsWeb) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => const WebViewPage(
-                            title: "GitHub",
-                            url: GitURL,
-                          ),
-                        ),
-                      );
-                    } else {
-                      _launchURL(GitURL);
-                    }
-                  },
-                  child: const Text(
-                    GitURL,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ],
+            const Text('github : ', style: TextStyle(fontSize: 18)),
+            TextButton(
+              onPressed: () {
+                if (!kIsWeb) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => const WebViewPage(
+                        title: "GitHub",
+                        url: GitURL,
+                      ),
+                    ),
+                  );
+                } else {
+                  _launchURL(GitURL);
+                }
+              },
+              child: const Text(
+                GitURL,
+                style: TextStyle(fontSize: 16),
+              ),
             ),
             const SizedBox(height: 20),
             const Text('プライバシーポリシー : ', style: TextStyle(fontSize: 18)),
