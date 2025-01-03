@@ -64,6 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '70689439748',
     projectId: 'iconic-momentum',
     storageBucket: 'iconic-momentum.firebasestorage.app',
+    androidClientId: '70689439748-8h9tfiaj9g769j01eo23ade1fmkbb624.apps.googleusercontent.com',
+    iosClientId: '70689439748-lquim12k8kmmk6n46gsu38tuagmmhvl9.apps.googleusercontent.com',
     iosBundleId: 'com.example.iconicMomentum',
   );
 
@@ -73,6 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '70689439748',
     projectId: 'iconic-momentum',
     storageBucket: 'iconic-momentum.firebasestorage.app',
+    androidClientId: '70689439748-8h9tfiaj9g769j01eo23ade1fmkbb624.apps.googleusercontent.com',
+    iosClientId: '70689439748-lquim12k8kmmk6n46gsu38tuagmmhvl9.apps.googleusercontent.com',
     iosBundleId: 'com.example.iconicMomentum',
   );
 
@@ -85,4 +89,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'iconic-momentum.firebasestorage.app',
     measurementId: 'G-F8T55V477T',
   );
+
 }

@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "70689439748",
+    "project_id": "iconic-momentum",
+    "storage_bucket": "iconic-momentum.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70689439748:android:d1913943effbfad525b551",
+        "android_client_info": {
+          "package_name": "com.andoroid.applic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70689439748-n455rugiu7ump1i1bnhndbou2kp3qa5h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andoroid.applic",
+            "certificate_hash": "86123a6ef4c821f6da58f0a024b668b191ce8e38"
+          }
+        },
+        {
+          "client_id": "70689439748-nbpg3f83lcotm5qg9mo2uc79lhbsreqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHkDRj7JoW-20_Pda2WXTPZLc5mqVP_ZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70689439748-nbpg3f83lcotm5qg9mo2uc79lhbsreqq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "70689439748-lquim12k8kmmk6n46gsu38tuagmmhvl9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.iconicMomentum"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70689439748:android:1aa50178243f7b0825b551",
+        "android_client_info": {
+          "package_name": "com.iconic.momentum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70689439748-8h9tfiaj9g769j01eo23ade1fmkbb624.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iconic.momentum",
+            "certificate_hash": "91ac1ea6126ed251d02d88af19c8e99dfa55bf1b"
+          }
+        },
+        {
+          "client_id": "70689439748-hfm84sflc2p6f8besbvlsb7s55k55h25.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iconic.momentum",
+            "certificate_hash": "86123a6ef4c821f6da58f0a024b668b191ce8e38"
+          }
+        },
+        {
+          "client_id": "70689439748-nbpg3f83lcotm5qg9mo2uc79lhbsreqq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHkDRj7JoW-20_Pda2WXTPZLc5mqVP_ZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70689439748-nbpg3f83lcotm5qg9mo2uc79lhbsreqq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "70689439748-lquim12k8kmmk6n46gsu38tuagmmhvl9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.iconicMomentum"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
